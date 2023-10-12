@@ -11,4 +11,4 @@ const getLogin = async (book: Book) => {
     return bookCreated
 }
 
-export {createBook}
+export {createBook,getLogin}

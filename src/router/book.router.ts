@@ -4,6 +4,6 @@ import { insertBook, login } from "../controllers/book.controller";
 const router = Router()
 
 router.post('/login', login)
-router.post('/inserBook', insertBook)
+router.post('/insertBook', insertBook)
 
 export {router}
