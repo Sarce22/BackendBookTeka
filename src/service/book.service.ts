@@ -1,14 +1,32 @@
 import { Book } from "../interfaces/book.interface"
-import UserModel from "../models/book.model"
+import BookModel from "../models/book.model"
+
 
 const createBook = async (book: Book) => {
-    const userCreated = await UserModel.create(book)
-    return userCreated
+    const bookCreated = await BookModel.create(book);
+    return bookCreated;
+}
+
+const deleteBookByISBN = async (isbn: string) => {
+    try {
+        
+        const result = await BookModel.deleteOne({ isbn });
+        
+        
+        if (result.deletedCount === 1) {
+            return true; 
+        } else {
+            return false; 
+        }
+    } catch (error) {
+        
+        throw error;
+    }
 }
 
 const getLogin = async (book: Book) => {
-    const bookCreated = await UserModel.create(book)
+    const bookCreated = await BookModel.create(book)
     return bookCreated
 }
 
-export {createBook,getLogin}
+export { createBook, getLogin, deleteBookByISBN }
