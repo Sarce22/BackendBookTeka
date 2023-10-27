@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { createBook, deleteBookByISBN } from "../service/book.service"
+import { createBook, deleteBookByISBN, findBookByISBN, getAllBooks } from "../service/book.service"
 import handleError from "../utils/error.handle"
 import { Constants } from "../utils/constants"
 
@@ -39,4 +39,31 @@ const deleteBook = async (req: Request, res: Response) => {
     }
 }
 
-export {login, insertBook,deleteBook}
+
+const getAll = async (req: Request, res: Response) => {
+    try {
+        const books = await getAllBooks();
+        res.status(200).send(books);
+    } catch (error) {
+        console.log(error);
+        handleError(res, Constants.MSG_ERROR_APLICACION);
+    }
+}
+
+const findBook = async (req: Request, res: Response) => {
+    try {
+        const isbn = req.params.isbn; // Obtiene el ISBN desde los parámetros de la URL
+        const book = await findBookByISBN(isbn);
+
+        if (book) {
+            res.status(200).send(book);
+        } else {
+            res.status(404).send({ message: 'Libro no encontrado' });
+        }
+    } catch (error) {
+        console.log(error);
+        handleError(res, Constants.MSG_ERROR_APLICACION);
+    }
+}
+
+export {login, insertBook, deleteBook,getAll,findBook}
