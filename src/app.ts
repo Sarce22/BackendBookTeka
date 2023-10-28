@@ -1,8 +1,10 @@
 import "dotenv/config"
 import express from "express"
 import cors from "cors"
-import { router } from "./router/book.router"
+import { router } from "./router/router"
 import dbConnect from "./config/config"
+
+
 const PORT = process.env.PORT || 3001
 const app = express()
 app.use(cors())

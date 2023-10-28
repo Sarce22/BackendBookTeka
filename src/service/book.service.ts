@@ -28,7 +28,6 @@ const deleteBookByISBN = async (isbn: string) => {
 //Obtiene todos los libros
 const getAllBooks = async () => {
     try {
-        
         const books = await BookModel.find();
         return books;
     } catch (error) {
