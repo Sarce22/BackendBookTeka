@@ -1,0 +1,12 @@
+import { Router } from "express";
+import { checkUserRole, insertUser, login, validateTokenOk } from "../controllers/user.controller";
+
+
+const router = Router()
+
+router.post('/login', login)
+router.post('/validateToken', validateTokenOk)
+router.post('/insertUser', insertUser)
+router.post('/checkUserRole', checkUserRole)
+
+export {router}
