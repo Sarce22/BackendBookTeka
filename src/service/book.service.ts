@@ -47,10 +47,4 @@ const findBookByISBN = async (isbn: string) => {
     }
 }
 
-
-const getLogin = async (book: Book) => {
-    const bookCreated = await BookModel.create(book)
-    return bookCreated
-}
-
-export { createBook, getLogin, deleteBookByISBN, getAllBooks,findBookByISBN }
+export { createBook, deleteBookByISBN, getAllBooks,findBookByISBN }
