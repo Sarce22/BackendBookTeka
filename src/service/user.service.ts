@@ -38,5 +38,41 @@ const getUserRolById = async (userId: string) => {
     return userDB
 }
 
+const deleteUserById = async (id: number) => {
+    try {
+        const result = await UserModel.deleteOne({ id });
+        
+        if (result.deletedCount === 1) {
+            return true; 
+        } else {
+            return false; 
+        }
+    } catch (error) {
+        
+        throw error;
+    }
+}
 
-export { createUser, getLogin, getUserRolById }
+//Obtiene todos los users
+const getAllUser = async () => {
+    try {
+        const books = await UserModel.find();
+        return books;
+    } catch (error) {
+        throw error;
+    }
+}
+
+
+//Busca por id del user
+const findUserById = async (id: number) => {
+    try {
+        const book = await UserModel.findOne({ id });
+        return book;
+    } catch (error) {
+        throw error;
+    }
+}
+
+
+export { createUser, getLogin, getUserRolById, findUserById,getAllUser, deleteUserById }

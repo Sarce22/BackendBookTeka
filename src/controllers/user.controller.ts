@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { createUser, getLogin, getUserRolById } from "../service/user.service"
+import { createUser, deleteUserById, findUserById, getAllUser, getLogin, getUserRolById } from "../service/user.service"
 import handleError from "../utils/error.handle"
 import { Constants } from "../utils/constants"
 import { User } from "../interfaces/user.interface"
@@ -23,6 +23,7 @@ const login = async (req: Request, res: Response) => {
     }
 }
 
+//Agregar
 const insertUser = async (req: Request, res: Response) => {
     try {
         const { body } = req
@@ -33,6 +34,55 @@ const insertUser = async (req: Request, res: Response) => {
         handleError(res, Constants.MSG_ERROR_APLICACION)
     }
 }
+
+//Eliminar
+
+const deleteUser = async (req: Request, res: Response) => {
+    try {
+      const userId = parseInt(req.params.id, 10); // Convierte la cadena en un número
+      const result = await deleteUserById(userId);
+  
+      if (result) {
+        res.status(200).send({ message: 'Usuario eliminado correctamente' });
+      } else {
+        res.status(404).send({ message: 'Usuario no encontrado' });
+      }
+    } catch (error) {
+      console.error(error);
+      handleError(res, Constants.MSG_ERROR_APLICACION);
+    }
+  };
+
+  //Buscar
+
+  const findUser = async (req: Request, res: Response) => {
+    try {
+      const userId = parseInt(req.params.id, 10); // Convierte la cadena en un número
+      const user = await findUserById(userId);
+  
+      if (user) {
+        res.status(200).send(user);
+      } else {
+        res.status(404).send({ message: 'Usuario no encontrado' });
+      }
+    } catch (error) {
+      console.error(error);
+      handleError(res, Constants.MSG_ERROR_APLICACION);
+    }
+  };
+
+
+  //TODOS
+  const getAllUsers = async (req: Request, res: Response) => {
+    try {
+        const user = await getAllUser();
+        res.status(200).send(user);
+    } catch (error) {
+        console.log(error);
+        handleError(res, Constants.MSG_ERROR_APLICACION);
+    }
+}
+
 
 const validateTokenOk = (req: Request, res: Response) => {
     return res.status(200).send({ msg: Constants.MSG_SUCCESS_TOKEN, error: false })
@@ -55,4 +105,6 @@ const checkUserRole = async (req: Request, res: Response) => {
     }
 }
 
-export { login, insertUser, validateTokenOk, checkUserRole }
+
+
+export { login, insertUser, validateTokenOk, checkUserRole,deleteUser, findUser,getAllUsers}
