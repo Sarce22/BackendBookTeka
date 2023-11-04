@@ -44,6 +44,8 @@ const getAll = async (req: Request, res: Response) => {
     try {
         const books = await getAllBooks();
         res.status(200).send(books);
+        console.log(books);
+        
     } catch (error) {
         console.log(error);
         handleError(res, Constants.MSG_ERROR_APLICACION);

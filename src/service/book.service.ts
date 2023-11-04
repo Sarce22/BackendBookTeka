@@ -4,7 +4,10 @@ import BookModel from "../models/book.model"
 // crea libro
 const createBook = async (book: Book) => {
     const bookCreated = await BookModel.create(book);
+    console.log(book);
     return bookCreated;
+    
+    
 }
 
 //Elimina libro
