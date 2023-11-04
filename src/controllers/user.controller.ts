@@ -21,6 +21,7 @@ const login = async (req: Request, res: Response) => {
         console.log(error);     
         handleError(res,Constants.MSG_ERROR_APLICACION)
     }
+    
 }
 
 //Agregar
