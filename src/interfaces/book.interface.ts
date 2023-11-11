@@ -4,4 +4,5 @@ export interface Book{
     price: number
     description: string
     urlImage: string
+    category: string
 }

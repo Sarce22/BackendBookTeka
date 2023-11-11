@@ -5,7 +5,8 @@ const BookSchema = new Schema({
     price: { type: String, required: true },
     isbn: { type: String, required: true, unique: true },
     description: { type: String, required: true },
-    urlImage: { type: String, require: true }
+    urlImage: { type: String, require: true },
+    category: { type: String, require: true }
 }, {
     timestamps: true,
     versionKey: false
