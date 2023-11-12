@@ -1,6 +1,6 @@
 import {Router } from "express";
 import { deleteBook, filterCategory, findBook, findBookName, getAll, insertBook} from "../controllers/book.controller";
-import { checkUserRole, deleteUser, findUser, getAllUsers, insertUser, login, validateTokenOk } from "../controllers/user.controller";
+import { checkUserRole, deleteUser, findUser, getAllUsers, insertUser, login, updateUser, validateTokenOk } from "../controllers/user.controller";
 
 const router = Router()
 
@@ -22,6 +22,7 @@ router.post('/checkUserRole', checkUserRole)
 router.get('/findUser/:id',findUser)
 router.delete('/deleteUser/:id', deleteUser)
 router.get('/users',getAllUsers)
+router.put('/editUser/:id', updateUser); 
 
 
 export {router}

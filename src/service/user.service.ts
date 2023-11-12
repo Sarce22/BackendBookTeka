@@ -74,5 +74,27 @@ const findUserById = async (id: number) => {
     }
 }
 
+const updateUserById = async (userId: string, updatedUserData: Partial<User>) => {
+    try {
+        console.log("Updating user with ID:", userId);
+        console.log("Updated data:", updatedUserData);
 
-export { createUser, getLogin, getUserRolById, findUserById,getAllUser, deleteUserById }
+        const user = await UserModel.findOneAndUpdate({ id: userId }, updatedUserData, { new: true });
+
+        console.log("Updated user:", user);
+
+        if (!user) {
+            console.log("User not found during update.");
+            return Constants.MSG_ERROR_USUARIO_NO_ECONTRADO;
+        }
+
+        user.password = ""; // Asegurémonos de no devolver la contraseña
+        return user;
+    } catch (error) {
+        console.error("Error during user update:", error);
+        throw error;
+    }
+};
+
+
+export { createUser, getLogin, getUserRolById, findUserById,getAllUser, deleteUserById,updateUserById}

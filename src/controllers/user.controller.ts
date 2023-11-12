@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { createUser, deleteUserById, findUserById, getAllUser, getLogin, getUserRolById } from "../service/user.service"
+import { createUser, deleteUserById, findUserById, getAllUser, getLogin, getUserRolById, updateUserById } from "../service/user.service"
 import handleError from "../utils/error.handle"
 import { Constants } from "../utils/constants"
 import { User } from "../interfaces/user.interface"
@@ -107,5 +107,24 @@ const checkUserRole = async (req: Request, res: Response) => {
 }
 
 
+const updateUser = async (req: Request, res: Response) => {
+  try {
+      const userId: string = req.params.id;
+      const updatedUserData: Partial<User> = req.body;
 
-export { login, insertUser, validateTokenOk, checkUserRole,deleteUser, findUser,getAllUsers}
+      const updatedUser = await updateUserById(userId, updatedUserData);
+
+      if (updatedUser === Constants.MSG_ERROR_USUARIO_NO_ECONTRADO) {
+          console.log("User not found during update.");
+          return res.status(404).send({ message: 'Usuario no encontrado', error: true });
+      }
+
+      res.status(200).send(updatedUser);
+  } catch (error) {
+      console.error("Error during user update:", error);
+      handleError(res, Constants.MSG_ERROR_APLICACION);
+  }
+};
+
+
+export { login, insertUser, validateTokenOk, checkUserRole,deleteUser, findUser,getAllUsers, updateUser }
