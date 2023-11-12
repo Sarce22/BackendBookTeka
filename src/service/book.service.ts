@@ -1,5 +1,6 @@
 import { Book } from "../interfaces/book.interface"
 import BookModel from "../models/book.model"
+import { Constants } from "../utils/constants";
 
 // crea libro
 const createBook = async (book: Book) => {
@@ -71,4 +72,26 @@ const findBookByCategory = async (category: string) => {
         throw new Error('Error al buscar libros por categoría');
     }
 }
-export { createBook, deleteBookByISBN, getAllBooks, findBookByISBN, findBookByName, findBookByCategory }
+
+const updateBookByIsbn = async (bookIsbn: string, updatedBookData: Partial<Book>) => {
+    try {
+        console.log("Updating book with isbn:", bookIsbn);
+        console.log("Updated data:", updatedBookData);
+
+        const book = await BookModel.findOneAndUpdate({ isbn: bookIsbn }, updatedBookData, { new: true });
+
+        console.log("Updated book:", book);
+
+        if (!book) {
+            console.log("Book not found during update.");
+            return Constants.MSG_ERROR_USUARIO_NO_ECONTRADO;
+        }
+
+        
+        return book;
+    } catch (error) {
+        console.error("Error during book update:", error);
+        throw error;
+    }
+};
+export { createBook, deleteBookByISBN, getAllBooks, findBookByISBN, findBookByName, findBookByCategory, updateBookByIsbn }

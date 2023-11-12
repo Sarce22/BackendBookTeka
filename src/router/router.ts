@@ -1,6 +1,7 @@
 import {Router } from "express";
-import { deleteBook, filterCategory, findBook, findBookName, getAll, insertBook} from "../controllers/book.controller";
+import { deleteBook, filterCategory, findBook, findBookName, getAll, insertBook, updateBook} from "../controllers/book.controller";
 import { checkUserRole, deleteUser, findUser, getAllUsers, insertUser, login, updateUser, validateTokenOk } from "../controllers/user.controller";
+
 
 const router = Router()
 
@@ -12,6 +13,7 @@ router.get('/books', getAll);
 router.get('/findBook/:isbn', findBook);
 router.get('/search/name', findBookName)
 router.get('/filterCategory/:category', filterCategory)
+router.put('/editBook/:isbn', updateBook); 
 
 
 //Para los usuarios

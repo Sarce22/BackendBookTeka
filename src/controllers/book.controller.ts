@@ -1,7 +1,8 @@
 import { Request, Response } from "express"
-import { createBook, deleteBookByISBN, findBookByCategory, findBookByISBN, findBookByName, getAllBooks } from "../service/book.service"
+import { createBook, deleteBookByISBN, findBookByCategory, findBookByISBN, findBookByName, getAllBooks, updateBookByIsbn } from "../service/book.service"
 import handleError from "../utils/error.handle"
 import { Constants } from "../utils/constants"
+import { Book } from "../interfaces/book.interface"
 
 
 const login = async (req: Request, res: Response) => {
@@ -113,4 +114,23 @@ const filterCategory = async (req: Request, res: Response) => {
     }
 }
 
-export { login, insertBook, deleteBook, getAll, findBook, findBookName, filterCategory }
+const updateBook = async (req: Request, res: Response) => {
+    try {
+        const bookIsbn: string = req.params.isbn;
+        const updatedBookData: Partial<Book> = req.body;
+  
+        const updatedBook = await updateBookByIsbn(bookIsbn, updatedBookData);
+  
+        if (updatedBook === Constants.MSG_ERROR_USUARIO_NO_ECONTRADO) {
+            console.log("User not found during update.");
+            return res.status(404).send({ message: 'Usuario no encontrado', error: true });
+        }
+  
+        res.status(200).send(updatedBook);
+    } catch (error) {
+        console.error("Error during user update:", error);
+        handleError(res, Constants.MSG_ERROR_APLICACION);
+    }
+  };
+
+export { login, insertBook, deleteBook, getAll, findBook, findBookName, filterCategory, updateBook }
