@@ -127,4 +127,7 @@ const updateUser = async (req: Request, res: Response) => {
 };
 
 
+
+
+
 export { login, insertUser, validateTokenOk, checkUserRole,deleteUser, findUser,getAllUsers, updateUser }

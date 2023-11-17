@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { createBook, deleteBookByISBN, findBookByCategory, findBookByISBN, findBookByName, getAllBooks, updateBookByIsbn } from "../service/book.service"
+import { createBook, deleteBookByISBN, findBookByISBN, findBookByName, findBooksByCategory, getAllBooks, updateBookByIsbn } from "../service/book.service"
 import handleError from "../utils/error.handle"
 import { Constants } from "../utils/constants"
 import { Book } from "../interfaces/book.interface"
@@ -70,6 +70,8 @@ const findBook = async (req: Request, res: Response) => {
     }
 }
 
+
+
 const findBookName = async (req: Request, res: Response) => {
     try {
         const name = req.query.name as string
@@ -91,28 +93,29 @@ const findBookName = async (req: Request, res: Response) => {
     }
 }
 
-const filterCategory = async (req: Request, res: Response) => {
+const findBookByCategory = async (req: Request, res: Response) => {
     try {
-        const category = req.params.category as string
-        console.log(category);
-        
+        const category = req.query.category as string;
         if (!category) {
-            return res.status(400).send({ message: 'El parámetro "Category" es requerido en la consulta.' });
+            return res.status(400).send({ message: 'El parámetro "category" es requerido en la consulta.' });
         }
 
-        const book = await findBookByCategory(category)
-        console.log('controller', book);
+        const books = await findBooksByCategory(category);
+        console.log('controller', books);
 
-        if (book) {
-            res.status(200).send(book);
+        if (books.length > 0) {
+            res.status(200).send(books);
         } else {
-            res.status(404).send({ message: 'Libro no encontrado' });
+            res.status(404).send({ message: 'Libros no encontrados en esta categoría' });
         }
     } catch (error) {
         console.log(error);
         handleError(res, Constants.MSG_ERROR_APLICACION);
     }
 }
+
+
+
 
 const updateBook = async (req: Request, res: Response) => {
     try {
@@ -133,4 +136,4 @@ const updateBook = async (req: Request, res: Response) => {
     }
   };
 
-export { login, insertBook, deleteBook, getAll, findBook, findBookName, filterCategory, updateBook }
+export { login, insertBook, deleteBook, getAll, findBook, findBookName, findBookByCategory, updateBook }

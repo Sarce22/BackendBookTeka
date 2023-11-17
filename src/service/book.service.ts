@@ -61,17 +61,18 @@ const findBookByName = async (partialName: string) => {
     }
 }
 
-const findBookByCategory = async (category: string) => {
+
+//Busca por categoria
+const findBooksByCategory = async (category: string) => {
     try {
-        const books = await BookModel.find({ category: category });
-        console.log('service',category,books);
-        
+        const books = await BookModel.find({ category: { $regex: category, $options: 'i' } });
         return books;
     } catch (error) {
-        console.error(error);
-        throw new Error('Error al buscar libros por categoría');
+        throw error;
     }
 }
+
+
 
 const updateBookByIsbn = async (bookIsbn: string, updatedBookData: Partial<Book>) => {
     try {
@@ -94,4 +95,4 @@ const updateBookByIsbn = async (bookIsbn: string, updatedBookData: Partial<Book>
         throw error;
     }
 };
-export { createBook, deleteBookByISBN, getAllBooks, findBookByISBN, findBookByName, findBookByCategory, updateBookByIsbn }
+export { createBook, deleteBookByISBN, getAllBooks, findBookByISBN, findBookByName, findBooksByCategory, updateBookByIsbn }

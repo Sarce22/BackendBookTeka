@@ -1,5 +1,5 @@
 import {Router } from "express";
-import { deleteBook, filterCategory, findBook, findBookName, getAll, insertBook, updateBook} from "../controllers/book.controller";
+import { deleteBook,findBook, findBookByCategory, findBookName, getAll, insertBook, updateBook} from "../controllers/book.controller";
 import { checkUserRole, deleteUser, findUser, getAllUsers, insertUser, login, updateUser, validateTokenOk } from "../controllers/user.controller";
 
 
@@ -12,7 +12,8 @@ router.delete('/deleteBook/:isbn',deleteBook)
 router.get('/books', getAll);
 router.get('/findBook/:isbn', findBook);
 router.get('/search/name', findBookName)
-router.get('/filterCategory/:category', filterCategory)
+router.get('/search/category', findBookByCategory);
+
 router.put('/editBook/:isbn', updateBook); 
 
 
