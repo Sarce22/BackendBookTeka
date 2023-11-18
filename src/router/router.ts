@@ -12,7 +12,7 @@ router.delete('/deleteBook/:isbn',deleteBook)
 router.get('/books', getAll);
 router.get('/findBook/:isbn', findBook);
 router.get('/search/name', findBookName)
-router.get('/search/category', findBookByCategory);
+router.get('/books', findBookByCategory);
 
 router.put('/editBook/:isbn', updateBook); 
 

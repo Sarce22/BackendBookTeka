@@ -70,7 +70,8 @@ const findBooksByCategory = async (category: string) => {
     } catch (error) {
         throw error;
     }
-}
+};
+
 
 
 

@@ -43,15 +43,25 @@ const deleteBook = async (req: Request, res: Response) => {
 
 const getAll = async (req: Request, res: Response) => {
     try {
-        const books = await getAllBooks();
-        res.status(200).send(books);
-        console.log(books);
+        const { category } = req.query;
 
+        let books;
+
+        if (category) {
+           
+            books = await findBooksByCategory(category as string);
+        } else {
+           
+            books = await getAllBooks();
+        }
+
+        res.status(200).send(books);
     } catch (error) {
         console.log(error);
         handleError(res, Constants.MSG_ERROR_APLICACION);
     }
-}
+};
+
 
 const findBook = async (req: Request, res: Response) => {
     try {
