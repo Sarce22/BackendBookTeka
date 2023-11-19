@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { createUser, deleteUserById, findUserById, getAllUser, getLogin, getUserRolById, updateUserById } from "../service/user.service"
+import { addToFavorites, createUser, deleteUserById, findUserById, getAllUser, getLogin, getUserRolById, updateUserById } from "../service/user.service"
 import handleError from "../utils/error.handle"
 import { Constants } from "../utils/constants"
 import { User } from "../interfaces/user.interface"
@@ -127,7 +127,32 @@ const updateUser = async (req: Request, res: Response) => {
 };
 
 
+const addBookToFavorites = async (req: Request, res: Response) => {
+  try {
+      const { userId, bookId } = req.body; // Esperamos userId y bookId en el cuerpo de la solicitud
+
+      const result = await addToFavorites(userId, bookId);
+
+      switch (result) {
+          case Constants.MSG_ERROR_USUARIO_NO_ENCONTRADO:
+              return res.status(404).send({ message: 'Usuario no encontrado' });
+          case Constants.MSG_ERROR_LIBRO_NO_ENCONTRADO:
+              return res.status(404).send({ message: 'Libro no encontrado' });
+          case Constants.MSG_LIBRO_YA_EN_FAVORITOS:
+              return res.status(400).send({ message: 'El libro ya está en favoritos del usuario' });
+          case Constants.MSG_LIBRO_AGREGADO_FAVORITOS_EXITOSAMENTE:
+              return res.status(200).send({ message: 'Libro agregado a favoritos exitosamente' });
+          default:
+              return res.status(500).send({ message: 'Error al procesar la solicitud' });
+      }
+  } catch (error) {
+      console.error(error);
+      return res.status(500).send({ message: 'Error al procesar la solicitud' });
+  }
+};
 
 
 
-export { login, insertUser, validateTokenOk, checkUserRole,deleteUser, findUser,getAllUsers, updateUser }
+
+
+export { login, insertUser, validateTokenOk, checkUserRole,deleteUser, findUser,getAllUsers, updateUser, addBookToFavorites }

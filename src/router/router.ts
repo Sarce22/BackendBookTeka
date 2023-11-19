@@ -1,6 +1,6 @@
 import {Router } from "express";
 import { deleteBook,findBook, findBookByCategory, findBookName, getAll, insertBook, updateBook} from "../controllers/book.controller";
-import { checkUserRole, deleteUser, findUser, getAllUsers, insertUser, login, updateUser, validateTokenOk } from "../controllers/user.controller";
+import { addBookToFavorites, checkUserRole, deleteUser, findUser, getAllUsers, insertUser, login, updateUser, validateTokenOk } from "../controllers/user.controller";
 
 
 const router = Router()
@@ -26,6 +26,10 @@ router.get('/findUser/:id',findUser)
 router.delete('/deleteUser/:id', deleteUser)
 router.get('/users',getAllUsers)
 router.put('/editUser/:id', updateUser); 
+
+
+//Favoritos
+router.post('/addBookToFavorites', addBookToFavorites);
 
 
 export {router}

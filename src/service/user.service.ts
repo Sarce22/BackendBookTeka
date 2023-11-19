@@ -1,7 +1,9 @@
 import { User } from "../interfaces/user.interface"
+import BookModel from "../models/book.model"
 import UserModel from "../models/user.model"
 import { encrypt, verify } from "../utils/bcrypt.utils"
 import { Constants } from "../utils/constants"
+import handleError from "../utils/error.handle"
 import { generateToken } from "../utils/jwt.handle"
 
 const createUser = async (user: User) => {
@@ -97,4 +99,35 @@ const updateUserById = async (userId: string, updatedUserData: Partial<User>) =>
 };
 
 
-export { createUser, getLogin, getUserRolById, findUserById,getAllUser, deleteUserById,updateUserById}
+const addToFavorites = async (userId: string, bookId: string) => {
+    try {
+        const user = await UserModel.findById(userId);
+
+        if (!user) {
+            return Constants.MSG_ERROR_USUARIO_NO_ENCONTRADO;
+        }
+
+        const book = await BookModel.findById(bookId);
+
+        if (!book) {
+            return Constants.MSG_ERROR_LIBRO_NO_ENCONTRADO;
+        }
+
+        const isBookAlreadyFavorited = user.favoriteBooks.some(favBook => favBook.equals(book._id));
+        if (isBookAlreadyFavorited) {
+            return Constants.MSG_LIBRO_YA_EN_FAVORITOS;
+        }
+
+        user.favoriteBooks.push(book._id);
+        await user.save();
+
+        return Constants.MSG_LIBRO_AGREGADO_FAVORITOS_EXITOSAMENTE;
+    } catch (error) {
+        console.error("Error while adding book to favorites:", error);
+        throw error;
+    }
+};
+
+
+
+export { createUser, getLogin, getUserRolById, findUserById,getAllUser, deleteUserById,updateUserById,addToFavorites }
