@@ -5,4 +5,5 @@ export interface Book{
     description: string
     urlImage: string
     category: string
+    author: string
 }
